@@ -1,16 +1,8 @@
+#include "stdafx.h"
 #include "trie.h"
 #include <string>
 
-const int ALPHABET_SIZE = 26;
 
-// node attributes
-struct TrieNode 
-{
-	struct TrieNode *children[ALPHABET_SIZE];
-
-	// true if node represents the end of a word
-	bool isEndOfWord;
-};
 
 // returns new trie node and initialises 26 null children
 struct TrieNode *getNode(void) 
@@ -25,11 +17,15 @@ struct TrieNode *getNode(void)
 	return pNode;
 }
 
+Trie::Trie() {
+	root = getNode();
+}
+
 // loops through key and checks each 
 // value to see if it exists
 // if it doesnt, create a new node 
 // else, node.isEndOfWord = true
-void insert(struct TrieNode *root, std::string key) 
+void Trie::insert(std::string key) 
 {
 	struct TrieNode *node = root;
 
@@ -45,7 +41,7 @@ void insert(struct TrieNode *root, std::string key)
 	node->isEndOfWord = true;
 }
 
-bool search(struct TrieNode *root, std::string key) 
+bool Trie::search(std::string key) 
 {
 	struct TrieNode *node = root;
 
