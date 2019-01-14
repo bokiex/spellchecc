@@ -1,2 +1,6 @@
-﻿  spellchecc.cpp
-  spellchecc.vcxproj -> D:\spellchecc\Debug\spellchecc.exe
+﻿  stdafx.cpp
+  spellchecc.cpp
+  trie.cpp
+  Generating Code...
+d:\program files\spellchecc\spellchecc\spellchecc.cpp(21): warning C4715: 'loadDictionary': not all control paths return a value
+  spellchecc.vcxproj -> D:\Program Files\spellchecc\Debug\spellchecc.exe
