@@ -1,9 +1,24 @@
-all: spellchecc
+# the compiler- g++ for c++
+CC = g++
 
-spellchecc: spellchecc.o trie.o
-	g++ --std=c++11 -o spellchecc spellchecc.o trie.o
+# compiler flags:
+#  -g		adds debugging information to the executable file
+#  -Wall	turns on most compiler warnings
+CFLAGS = -g -Wall
 
-spellcheck.o: spellchecc.cpp
+# the build target executable
+TARGET = spellchecc
+
+# relevant object files to go into the executable
+OBJS = spellchecc.o trie.o
+
+
+all: $(TARGET) 
+
+$(TARGET): $(OBJS)
+	g++ --std=c++11 -o $(TARGET) $(OBJS)
+
+spellchecc.o: spellchecc.cpp
 	g++ --std=c++11 spellchecc.cpp -o spellchecc.o
 
 trie.o: trie.cpp trie.h
