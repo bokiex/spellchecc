@@ -10,16 +10,16 @@ CFLAGS = -g -Wall
 TARGET = spellchecc
 
 # relevant object files to go into the executable
-OBJS = spellchecc.o trie.o
-
-
-all: $(TARGET) 
+OBJS = spellchecc.o trie.o 
 
 $(TARGET): $(OBJS)
-	g++ --std=c++11 -o $(TARGET) $(OBJS)
+	g++ -std=c++11 $(CFLAGS) $(OBJS) -o $(TARGET)
 
 spellchecc.o: spellchecc.cpp
-	g++ --std=c++11 spellchecc.cpp -o spellchecc.o
+	g++ -std=c++11 -c spellchecc.cpp
 
 trie.o: trie.cpp trie.h
-	g++ --std=c++11 trie.cpp -c -o trie.o
+	g++ -std=c++11 -c trie.cpp
+
+clean:
+	rm *.o spellchecc
