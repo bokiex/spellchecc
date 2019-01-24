@@ -96,5 +96,4 @@ precision
 photography
 cancel
 meal
-bronze
-bank
+bronz

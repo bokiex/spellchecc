@@ -13,13 +13,13 @@ TARGET = spellchecc
 OBJS = spellchecc.o trie.o 
 
 $(TARGET): $(OBJS)
-	$(CC) -std=c++11 $(CFLAGS) $(OBJS) -o $(TARGET)
+	$(CC) -std=c++17 $(CFLAGS) $(OBJS) -o $(TARGET)
 
 spellchecc.o: spellchecc.cpp
-	$(CC) -std=c++11 -c spellchecc.cpp
+	$(CC) -std=c++17 -c spellchecc.cpp
 
 trie.o: trie.cpp trie.h
-	$(CC) -std=c++11 -c trie.cpp
+	$(CC) -std=c++17 -c trie.cpp
 
 clean:
 	rm *.o spellchecc

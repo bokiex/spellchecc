@@ -7,7 +7,7 @@
 
 bool loadDictionary(Trie *dict) {
 	std::ifstream dictionary;
-	dictionary.open("dictionary.txt");
+	dictionary.open("RandomWords100.txt");
 
 	if (!dictionary) {
 		return false;
@@ -16,14 +16,16 @@ bool loadDictionary(Trie *dict) {
 	std::string word;
 	while (!dictionary.eof()) {
 		getline(dictionary, word);
-		dict.insert()
+ 		// dict->insert(word);
 	}
+
+	return true;
 }
 
 void addNewWord(std::string str)
 {
 	std::ofstream dictionary;
-	dictionary.open("dictionary.txt", std::ios_base::app);
+	dictionary.open("RandomWords100.txt", std::ios_base::app);
 
 	dictionary << str << std::endl;
 }
@@ -61,5 +63,14 @@ bool menu() {
 
 int main()
 {
+	// Create a trie (named dict) to hold the words
+	Trie* dict = new Trie;
 
+	// Load the words into dict
+	loadDictionary(dict);
+
+	std::cout << "HEllo" << std::endl;
+
+	// Display the menu
+	menu();
 }
