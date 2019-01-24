@@ -16,7 +16,7 @@ bool loadDictionary(Trie *dict) {
 	std::string word;
 	while (!dictionary.eof()) {
 		getline(dictionary, word);
- 		// dict->insert(word);
+ 		dict->insert(word);
 	}
 
 	return true;
@@ -30,7 +30,7 @@ void addNewWord(std::string str)
 	dictionary << str << std::endl;
 }
 
-bool menu() {
+bool menu(Trie* dict) {
 
 	while (true) {
 		std::cout << "------- Main Menu -------" << std::endl;
@@ -48,12 +48,17 @@ bool menu() {
 		case 0:
 			return false;
 		case 1:
+			std::cout << "Word to check: ";
+			std::cin >> word;
+			std::cout << ( dict->search(word) ? "found!" : "not found :-(" ) 
+				  << std::endl;
 			break;
 		case 3:
 			std::cout << "What's the word?" << std::endl;
 			std::cin >> word;
 			addNewWord(word);
 			std::cout << "Added!" << std::endl;
+			break;
 		default:
 			std::cout << "bAd oPtIoN" << std::endl;
 			break;
@@ -69,8 +74,6 @@ int main()
 	// Load the words into dict
 	loadDictionary(dict);
 
-	std::cout << "HEllo" << std::endl;
-
 	// Display the menu
-	menu();
+	menu(dict);
 }

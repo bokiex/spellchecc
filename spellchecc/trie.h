@@ -1,35 +1,21 @@
 #include "stdafx.h"
 #include <iostream>
 
-const int ALPHABET_SIZE = 26;
-
-// node attributes
-struct TrieNode
-{
-	TrieNode* children[ALPHABET_SIZE];
-
-	// true if node represents the end of a word
-	bool isEndOfWord;
-};
-
-// returns new trie node and initialises 26 null children
-struct TrieNode* getNode() 
-{
-	TrieNode* pNode = new TrieNode;
-
-	for (TrieNode* n : pNode->children) { n = nullptr; }
-
-	pNode->isEndOfWord = false;
-
-	return pNode;
-}
+const int ALPHABET_SIZE = 128;
 
 class Trie 
 {
 private:
-	TrieNode* root;
+	Trie* children[ALPHABET_SIZE];
+
+	// true if node represents the end of a word
+	bool isEndOfWord = false;
 public:
-	Trie() { root = getNode(); }
+	Trie() 
+	{ 
+		for (int i = 0; i < ALPHABET_SIZE; i++)
+		{ children[i] = nullptr; }
+       	}
 
 	// loops through key and checks each 
 	// value to see if it exists
@@ -37,19 +23,17 @@ public:
 	// else, node.isEndOfWord = true
 	void insert(std::string key)
 	{
-		TrieNode* node = root;
+		Trie* node = this;
 
-		for (int i = 0; i < key.length(); ++i) {
+		for (int i = 0; i < key.length(); i++) {
 			// ignore if i = \n
 			if (!isalpha(key[i])) continue;
 
-			int index = key[i] - 'a';
-			if (!node->children[index])
+			if (node->children[key[i]] == nullptr)
 			{
-				node->children[index] = getNode();
-			} 
-
-			node = node->children[index];
+				node->children[key[i]] = new Trie();
+			}
+			node = node->children[key[i]];
 		}
 
 		// mark last node as leaf
@@ -58,17 +42,15 @@ public:
 
 	bool search(std::string key)
 	{
-		TrieNode *node = root;
+		Trie *node = this;
 
-		for (auto i : key) 
+		for (int i = 0; i < key.length(); i++) 
 		{
-			auto index = i - 'a';
-			if (!node->children[index]) {
-				return false;
-			}
-			node = node->children[index];
+			node = node->children[key[i]];
+
+			if (node == nullptr) return false;
 		}
 
-		return (node != NULL && node->isEndOfWord);
+		return node->isEndOfWord;
 	}
 };
