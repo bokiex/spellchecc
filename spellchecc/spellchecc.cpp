@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "trie.h"
+#include <iostream>
 #include <fstream>
 
 bool loadDictionary(Trie *dict) {
@@ -20,6 +21,22 @@ bool loadDictionary(Trie *dict) {
 	}
 
 	return true;
+}
+
+void checkFile(Trie* dict, std::string path)
+{
+	std::ifstream file;
+	file.open(path);
+
+	std::string line;
+	while (!file.eof())
+	{
+		getline(file, line);
+		if (!dict->search(line))
+		{
+			std::cout << line << " wasn't found in the dictionary!" << std::endl;
+		}
+	}
 }
 
 void addNewWord(std::string str)
@@ -41,7 +58,7 @@ bool menu(Trie* dict) {
 		std::cout << "[0] Quit" << std::endl;
 
 		int option;
-		std::string word;
+		std::string input;
 		std::cin >> option;
 
 		switch (option) {
@@ -49,14 +66,19 @@ bool menu(Trie* dict) {
 			return false;
 		case 1:
 			std::cout << "Word to check: ";
-			std::cin >> word;
-			std::cout << ( dict->search(word) ? "found!" : "not found :-(" ) 
+			std::cin >> input;
+			std::cout << ( dict->search(input) ? "found!" : "not found :-(" ) 
 				  << std::endl;
+			break;
+		case 2:
+			std::cout << "Input the filepath to spellcheck: ";
+			std::cin >> input;
+			checkFile(dict, input);
 			break;
 		case 3:
 			std::cout << "What's the word?" << std::endl;
-			std::cin >> word;
-			addNewWord(word);
+			std::cin >> input;
+			addNewWord(input);
 			std::cout << "Added!" << std::endl;
 			break;
 		default:
