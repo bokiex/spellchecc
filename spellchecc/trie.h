@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <iostream>
+#include <string>
 
 const int ALPHABET_SIZE = 128;
 

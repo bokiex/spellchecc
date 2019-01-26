@@ -5,6 +5,7 @@
 #include "trie.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 
 bool loadDictionary(Trie *dict) {
 	std::ifstream dictionary;
@@ -61,40 +62,46 @@ bool menu(Trie* dict) {
 		std::string input;
 		std::cin >> option;
 
-		switch (option) {
-		case 0:
+		if (option == 0){
 			return false;
-		case 1:
+		}
+		else if (option == 1) {
 			std::cout << "Word to check: ";
 			std::cin >> input;
-			std::cout << ( dict->search(input) ? "found!" : "not found :-(" ) 
-				  << std::endl;
+			std::cout << (dict->search(input) ? "found!" : "not found :-(")
+				<< std::endl;
 			break;
-		case 2:
+		}
+		else if (option == 2) {
 			std::cout << "Input the filepath to spellcheck: ";
 			std::cin >> input;
 			checkFile(dict, input);
 			break;
-		case 3:
+		}
+		else if (option == 3) {
 			std::cout << "What's the word?" << std::endl;
 			std::cin >> input;
 			addNewWord(input);
 			std::cout << "Added!" << std::endl;
 			break;
-		case 4:
-		{
+		}
+		else if (option == 4){
 			std::cout << "Prefix to search for: ";
 			std::cin >> input;
 			Trie* n = dict->traverse(input);
 			if (n == nullptr)
-			{ std::cout << "Nothing found :-(" << std::endl; }
+			{
+				std::cout << "Nothing found :-(" << std::endl;
+			}
 			else
-			{ dict->searchPrefix(n, input); }
+			{
+				dict->searchPrefix(n, input);
+			}
 			break;
 		}
-		default:
+		else{
 			std::cout << "bAd oPtIoN" << std::endl;
-			break;
+			return false;
 		}
 	}
 }
