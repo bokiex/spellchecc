@@ -7,6 +7,8 @@
 #include <fstream>
 #include <vector>
 
+const std::string letters = "abcdefghijklmnopqrstuvxyz";
+
 bool loadDictionary(Trie *dict) {
 	std::ifstream dictionary;
 	dictionary.open("RandomWords100.txt");
@@ -46,20 +48,24 @@ void addNewWord(std::string str)
 	dictionary << str << std::endl;
 }
 
-void checkDeletion(Trie* dict, std::string input)
+// returns all possible splits of the input
+std::vector<std::pair<std::string, std::string>> getSplits(std::string input)
 {
-	// check deletion
-	std::string letters = "abcdefghijklmnopqrstuvqxyz";
-
-	// create all possible splits of the input
 	auto splits = std::vector<std::pair<std::string, std::string>>();
 	for (int i = 0; i < input.length(); i++)
 	{
 		splits.push_back(*new std::pair<std::string, std::string>(
 					input.substr(0, i),
 					input.substr(i)			
-					));
-	}		
+			));
+	}
+
+	return splits;	
+}
+
+void checkDeletion(Trie* dict, std::string input)
+{
+	auto splits = getSplits(input);
 
 	// create all possible corrections (for a deletion error)
 	std::vector<std::string> results;
@@ -70,6 +76,31 @@ void checkDeletion(Trie* dict, std::string input)
 	}
 
 	// check all possible corrections against dictionary
+	for (std::string s : results)
+	{
+		if (dict->search(s))
+		{
+			std::cout << "Did you mean " << s << "?" << std::endl;
+			break;
+		}
+	}
+}
+
+void checkSubstitution(Trie* dict, std::string input)
+{
+	auto splits = getSplits(input);
+
+	// create all possible corrections (for a substitution error)
+	std::vector<std::string> results;
+	for (int i = 0; i < input.length(); i++)
+	{
+		for (char c : letters)
+		{
+			results.push_back(input.substr(0, 1) + c + input.substr(2));
+		}
+	}
+
+	// check all possible corrections against the dictionary
 	for (std::string s : results)
 	{
 		if (dict->search(s))
@@ -105,7 +136,11 @@ bool menu(Trie* dict) {
 			if (found) std::cout << "found!" << std::endl;
 			else
 			{
+				// check for deletion error
 				checkDeletion(dict, input);
+
+				// check for substitution error
+				checkSubstitution(dict, input);
 			}
 			break;
 		}
