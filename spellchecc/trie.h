@@ -25,14 +25,11 @@ public:
 	{
 		Trie* node = this;
 
-		for (int i = 0; i < key.length(); i++) {
-			// ignore if i = \n
-			if (!isalpha(key[i])) continue;
-
+		for (int i = 0; i < key.length(); i++) 
+		{
 			if (node->children[key[i]] == nullptr)
-			{
-				node->children[key[i]] = new Trie();
-			}
+			{ node->children[key[i]] = new Trie(); }
+
 			node = node->children[key[i]];
 		}
 
