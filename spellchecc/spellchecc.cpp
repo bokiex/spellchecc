@@ -27,28 +27,6 @@ bool loadDictionary(Trie *dict) {
 	return true;
 }
 
-void checkFile(Trie* dict, std::string path)
-{
-	std::ifstream file;
-	file.open(path, std::ios::binary);
-
-	std::string line;
-	while (file.good())
-	{
-		getline(file, line);
-		if (!dict->search(line))
-		{ std::cout << line << " wasn't found in the dictionary!" << std::endl; }
-	}
-}
-
-void addNewWord(std::string str)
-{
-	std::ofstream dictionary;
-	dictionary.open("RandomWords100.txt", std::ios_base::app);
-
-	dictionary << str << std::endl;
-}
-
 // returns all possible splits of the input
 std::vector<std::pair<std::string, std::string>> getSplits(std::string input)
 {
@@ -57,12 +35,12 @@ std::vector<std::pair<std::string, std::string>> getSplits(std::string input)
 	for (int i = 0; i <= input.length(); i++)
 	{
 		splits.push_back(*new std::pair<std::string, std::string>(
-					input.substr(0, i),
-					input.substr(i)			
+			input.substr(0, i),
+			input.substr(i)
 			));
 	}
 
-	return splits;	
+	return splits;
 }
 
 void checkError(Trie* dict, std::string input)
@@ -74,9 +52,9 @@ void checkError(Trie* dict, std::string input)
 	for (std::pair<std::string, std::string> p : splits)
 	{
 		for (char c : letters)
-		{ 
+		{
 			// deletion
-			possibleCorrections.push_back(p.first + c + p.second); 
+			possibleCorrections.push_back(p.first + c + p.second);
 		}
 
 		if ((p.second).length() > 1)
@@ -104,30 +82,63 @@ void checkError(Trie* dict, std::string input)
 	std::vector<std::string> results;
 	for (std::string s : possibleCorrections)
 	{
-		
+
 		if (dict->search(s))
 		{
 			if (!(std::find(results.begin(), results.end(), s) != results.end())) {
 				results.push_back(s);
 			}
-			
+
 		}
 	}
 
+	// prints results 
 	if (results.size() == 0) {
 		std::cout << "not found :-(" << std::endl << std::endl;
 	}
 	else if (results.size() == 1) {
-		std::cout << "Did you mean " << results[0] << "?" << std::endl << std::endl;
+		std::cout << results[0] << "?" << std::endl << std::endl;
 	}
-	else{
-		std::cout << "Did you mean " << results[0];
+	else {
+		std::cout << results[0];
 		for (int i = 1; i < results.size(); i++) {
-			if (i == results.size() - 2) { break; }
+			if (i == 4) { break; }
 			std::cout << ", " << results[i];
 		}
-		std::cout << " or " << results[results.size() - 1] << "?" << std::endl << std::endl;
+		if (results.size() > 4) { std::cout << " or " << results[5] << "?" << std::endl << std::endl; }
+		else{ std::cout << " or " << results[results.size() - 1] << "?" << std::endl << std::endl; }
+		
 	}
+}
+
+void checkFile(Trie* dict, std::string path)
+{
+	std::ifstream file;
+	file.open(path);
+
+	std::cout << "Listing wrongly spelled words..." << std::endl;
+
+	std::string word;
+	while (!file.eof()) {
+		std::getline(file, word);
+		
+		if (!dict->search(word)) {
+			std::cout << word << " - Perhaps you meant: ";
+			checkError(dict, word);
+		}
+	}
+
+	std::cout << std::endl;
+
+
+}
+
+void addNewWord(std::string str)
+{
+	std::ofstream dictionary;
+	dictionary.open("RandomWords100.txt", std::ios_base::app);
+
+	dictionary << str << std::endl;
 }
 
 bool menu(Trie* dict) {
@@ -157,6 +168,7 @@ bool menu(Trie* dict) {
 			else
 			{
 				// check for error
+				std::cout << "Did you mean ";
 				checkError(dict, input);
 			}
 		}
