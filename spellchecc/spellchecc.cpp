@@ -52,7 +52,7 @@ void addNewWord(std::string str)
 std::vector<std::pair<std::string, std::string>> getSplits(std::string input)
 {
 	auto splits = std::vector<std::pair<std::string, std::string>>();
-	for (int i = 0; i < input.length(); i++)
+	for (int i = 0; i <= input.length(); i++)
 	{
 		splits.push_back(*new std::pair<std::string, std::string>(
 					input.substr(0, i),
