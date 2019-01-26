@@ -96,7 +96,7 @@ void checkSubstitution(Trie* dict, std::string input)
 	{
 		for (char c : letters)
 		{
-			results.push_back(input.substr(0, 1) + c + input.substr(2));
+			results.push_back(input.substr(0, i) + c + input.substr(i+1));
 		}
 	}
 
