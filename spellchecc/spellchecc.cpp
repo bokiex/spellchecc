@@ -161,8 +161,10 @@ bool menu(Trie* dict) {
 		}
 		else if (option == 1) {
 			std::cout << "Word to check: ";
-			std::cin >> input;
-			std::cout << std::endl;
+			std::cin.ignore();
+
+			getline(std::cin, input);
+
 			bool found = dict->search(input);
 			if (found) { std::cout << "found!" << std::endl; }
 			else

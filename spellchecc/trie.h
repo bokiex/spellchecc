@@ -27,14 +27,11 @@ public:
 	{
 		Trie* node = this;
 
-		for (int i = 0; i < key.length(); i++) {
-			// ignore if i = \n
-			if (!isalpha(key[i])) continue;
-
+		for (int i = 0; i < key.length(); i++) 
+		{
 			if (node->children[key[i]] == nullptr)
-			{
-				node->children[key[i]] = new Trie();
-			}
+			{ node->children[key[i]] = new Trie(); }
+
 			node = node->children[key[i]];
 		}
 
@@ -61,9 +58,7 @@ public:
 		Trie *node = this;
 		
 		for (int i = 0; i < key.length(); i++)
-		{
-			node = node->children[key[i]];
-		}
+		{ node = node->children[key[i]]; }
 
 		return node;
 	}
@@ -75,23 +70,22 @@ public:
 
 		return true;
 	}
+
 	void searchPrefix(Trie* t, std::string key)
 	{
+
+		// word found! print!
 		if (t->isEndOfWord)
-		{
-			// word found! print!
-			std::cout << key << std::endl;
-		}
+		{ std::cout << key << std::endl; }
 	
-		// end of trie reached
+		// end of trie reached. return.
 		if (isLastNode(t)) return;
 
 		for (int i = 0; i < ALPHABET_SIZE; i++)
 		{
 			if (t->children[i])
 			{
-				char cc = i;
-				key.push_back(cc);
+				key.push_back((char) i);
 
 				searchPrefix(t->children[i], key);
 				key.pop_back();
