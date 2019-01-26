@@ -54,7 +54,7 @@ void checkDeletion(Trie* dict, std::string input)
 
 	// create all possible splits of the input
 	auto splits = std::vector<std::pair<std::string, std::string>>();
-	for (int i = 0; i < input.length(); i++)
+	for (int i = 0; i < input.length() + 1; i++)
 	{
 		splits.push_back(*new std::pair<std::string, std::string>(
 					input.substr(0, i),
@@ -63,21 +63,33 @@ void checkDeletion(Trie* dict, std::string input)
 	}		
 
 	// create all possible corrections (for a deletion error)
-	std::vector<std::string> results;
+	std::vector<std::string> possibleCorrections;
 	for (std::pair<std::string, std::string> p : splits)
 	{
 		for (char c : letters)
-		{ results.push_back(p.first + c + p.second); }
+		{ possibleCorrections.push_back(p.first + c + p.second); }
 	}
 
-	// check all possible corrections against dictionary
-	for (std::string s : results)
+	// check all possible corrections against dictionary and appends to results vector
+	std::vector<std::string> results;
+	for (std::string s : possibleCorrections)
 	{
 		if (dict->search(s))
 		{
-			std::cout << "Did you mean " << s << "?" << std::endl;
-			break;
+			results.push_back(s);
 		}
+	}
+
+	if (results.size() == 1) {
+		std::cout << "Did you mean " << results[0] << "?" << std::endl;
+	}
+	else{
+		std::cout << "Did you mean ";
+		for (int i = 0; i < results.size(); i++) {
+			if (i == results.size() - 1) { break; }
+			std::cout << results[i];
+		}
+		std::cout << "or" << results[results.size()] << "?" << std::endl;
 	}
 }
 
@@ -107,20 +119,17 @@ bool menu(Trie* dict) {
 			{
 				checkDeletion(dict, input);
 			}
-			break;
 		}
 		else if (option == 2) {
 			std::cout << "Input the filepath to spellcheck: ";
 			std::cin >> input;
 			checkFile(dict, input);
-			break;
 		}
 		else if (option == 3) {
 			std::cout << "What's the word?" << std::endl;
 			std::cin >> input;
 			addNewWord(input);
 			std::cout << "Added!" << std::endl;
-			break;
 		}
 		else if (option == 4){
 			std::cout << "Prefix to search for: ";
@@ -134,7 +143,6 @@ bool menu(Trie* dict) {
 			{
 				dict->searchPrefix(n, input);
 			}
-			break;
 		}
 		else{
 			std::cout << "bAd oPtIoN" << std::endl;

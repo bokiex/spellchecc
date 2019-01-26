@@ -1,6 +1,7 @@
 ﻿  spellchecc.cpp
-d:\program files\spellchecc\spellchecc\trie.h(29): warning C4018: '<': signed/unsigned mismatch
-d:\program files\spellchecc\spellchecc\trie.h(48): warning C4018: '<': signed/unsigned mismatch
-d:\program files\spellchecc\spellchecc\trie.h(62): warning C4018: '<': signed/unsigned mismatch
-d:\program files\spellchecc\spellchecc\spellchecc.cpp(109): warning C4715: 'menu': not all control paths return a value
+d:\program files\spellchecc\spellchecc\trie.h(30): warning C4018: '<': signed/unsigned mismatch
+d:\program files\spellchecc\spellchecc\trie.h(49): warning C4018: '<': signed/unsigned mismatch
+d:\program files\spellchecc\spellchecc\trie.h(63): warning C4018: '<': signed/unsigned mismatch
+d:\program files\spellchecc\spellchecc\spellchecc.cpp(57): warning C4018: '<': signed/unsigned mismatch
+d:\program files\spellchecc\spellchecc\spellchecc.cpp(88): warning C4018: '<': signed/unsigned mismatch
   spellchecc.vcxproj -> D:\Program Files\spellchecc\Debug\spellchecc.exe

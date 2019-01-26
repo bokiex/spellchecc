@@ -18,6 +18,7 @@ public:
 		{ children[i] = nullptr; }
        	}
 
+
 	// loops through key and checks each 
 	// value to see if it exists
 	// if it doesnt, create a new node 
