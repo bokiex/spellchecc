@@ -81,6 +81,17 @@ bool menu(Trie* dict) {
 			addNewWord(input);
 			std::cout << "Added!" << std::endl;
 			break;
+		case 4:
+		{
+			std::cout << "Prefix to search for: ";
+			std::cin >> input;
+			Trie* n = dict->traverse(input);
+			if (n == nullptr)
+			{ std::cout << "Nothing found :-(" << std::endl; }
+			else
+			{ dict->searchPrefix(n, input); }
+			break;
+		}
 		default:
 			std::cout << "bAd oPtIoN" << std::endl;
 			break;

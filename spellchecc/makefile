@@ -10,7 +10,7 @@ CFLAGS = -g -Wall
 TARGET = spellchecc
 
 # relevant object files to go into the executable
-OBJS = spellchecc.o trie.o 
+OBJS = spellchecc.o trie.o
 
 $(TARGET): $(OBJS)
 	$(CC) -std=c++17 $(CFLAGS) $(OBJS) -o $(TARGET)

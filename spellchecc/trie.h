@@ -53,4 +53,47 @@ public:
 
 		return node->isEndOfWord;
 	}
+
+	Trie* traverse(std::string key)
+	{
+		Trie *node = this;
+		
+		for (int i = 0; i < key.length(); i++)
+		{
+			node = node->children[key[i]];
+		}
+
+		return node;
+	}
+
+	bool isLastNode(Trie* t)
+	{
+		for (Trie* c : t->children)
+		{ if (c) return false; }
+
+		return true;
+	}
+	void searchPrefix(Trie* t, std::string key)
+	{
+		if (t->isEndOfWord)
+		{
+			// word found! print!
+			std::cout << key << std::endl;
+		}
+	
+		// end of trie reached
+		if (isLastNode(t)) return;
+
+		for (int i = 0; i < ALPHABET_SIZE; i++)
+		{
+			if (t->children[i])
+			{
+				char cc = i;
+				key.push_back(cc);
+
+				searchPrefix(t->children[i], key);
+				key.pop_back();
+			}
+		}
+	}
 };
