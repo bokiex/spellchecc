@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 bool loadDictionary(Trie *dict) {
 	std::ifstream dictionary;
@@ -16,7 +17,7 @@ bool loadDictionary(Trie *dict) {
 	}
 
 	std::string word;
-	while (!dictionary.eof()) {
+	while (dictionary.good()) {
 		getline(dictionary, word);
  		dict->insert(word);
 	}
@@ -27,16 +28,14 @@ bool loadDictionary(Trie *dict) {
 void checkFile(Trie* dict, std::string path)
 {
 	std::ifstream file;
-	file.open(path);
+	file.open(path, std::ios::binary);
 
 	std::string line;
-	while (!file.eof())
+	while (file.good())
 	{
 		getline(file, line);
 		if (!dict->search(line))
-		{
-			std::cout << line << " wasn't found in the dictionary!" << std::endl;
-		}
+		{ std::cout << line << " wasn't found in the dictionary!" << std::endl; }
 	}
 }
 
@@ -46,6 +45,40 @@ void addNewWord(std::string str)
 	dictionary.open("RandomWords100.txt", std::ios_base::app);
 
 	dictionary << str << std::endl;
+}
+
+void checkDeletion(Trie* dict, std::string input)
+{
+	// check deletion
+	std::string letters = "abcdefghijklmnopqrstuvqxyz";
+
+	// create all possible splits of the input
+	auto splits = std::vector<std::pair<std::string, std::string>>();
+	for (int i = 0; i < input.length(); i++)
+	{
+		splits.push_back(*new std::pair<std::string, std::string>(
+					input.substr(0, i),
+					input.substr(i)			
+					));
+	}		
+
+	// create all possible corrections (for a deletion error)
+	std::vector<std::string> results;
+	for (std::pair<std::string, std::string> p : splits)
+	{
+		for (char c : letters)
+		{ results.push_back(p.first + c + p.second); }
+	}
+
+	// check all possible corrections against dictionary
+	for (std::string s : results)
+	{
+		if (dict->search(s))
+		{
+			std::cout << "Did you mean " << s << "?" << std::endl;
+			break;
+		}
+	}
 }
 
 bool menu(Trie* dict) {
@@ -68,8 +101,12 @@ bool menu(Trie* dict) {
 		else if (option == 1) {
 			std::cout << "Word to check: ";
 			std::cin >> input;
-			std::cout << (dict->search(input) ? "found!" : "not found :-(")
-				<< std::endl;
+			bool found = dict->search(input);
+			if (found) { std::cout << "found!" << std::endl; }
+			else
+			{
+				checkDeletion(dict, input);
+			}
 			break;
 		}
 		else if (option == 2) {
