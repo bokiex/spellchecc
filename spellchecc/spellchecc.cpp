@@ -88,8 +88,6 @@ void checkDeletion(Trie* dict, std::string input)
 
 void checkSubstitution(Trie* dict, std::string input)
 {
-	auto splits = getSplits(input);
-
 	// create all possible corrections (for a substitution error)
 	std::vector<std::string> results;
 	for (int i = 0; i < input.length(); i++)
@@ -97,6 +95,33 @@ void checkSubstitution(Trie* dict, std::string input)
 		for (char c : letters)
 		{
 			results.push_back(input.substr(0, i) + c + input.substr(i+1));
+		}
+	}
+
+	// check all possible corrections against the dictionary
+	for (std::string s : results)
+	{
+		if (dict->search(s))
+		{
+			std::cout << "Did you mean " << s << "?" << std::endl;
+			break;
+		}
+	}
+}
+
+void checkTransposition(Trie* dict, std::string input)
+{
+	auto splits = getSplits(input);
+
+	// get all possible corrections (for a transposition error)
+	std::vector<std::string> results;
+	for (std::pair<std::string, std::string> p : splits)
+	{
+		if ((p.second).length() > 1)
+		{
+			results.push_back(
+					p.first + p.second[1] + p.second[0] + (p.second).substr(2)		
+					);
 		}
 	}
 
@@ -141,6 +166,9 @@ bool menu(Trie* dict) {
 
 				// check for substitution error
 				checkSubstitution(dict, input);
+
+				// check for transposition error
+				checkTransposition(dict, input);
 			}
 			break;
 		}
