@@ -14,10 +14,6 @@ bool loadDictionary(Trie *dict) {
 	std::ifstream dictionary;
 	dictionary.open("dictionary10KR.txt");
 
-	if (!dictionary) {
-		return false;
-	}
-
 	std::string word;
 	while (dictionary.good()) {
 		getline(dictionary, word);
@@ -97,10 +93,10 @@ void checkError(Trie* dict, std::string input)
 		std::cout << "not found :-(" << std::endl << std::endl;
 	}
 	else if (results.size() == 1) {
-		std::cout << results[0] << "?" << std::endl << std::endl;
+		std::cout << "Did you mean " << results[0] << "?" << std::endl << std::endl;
 	}
 	else {
-		std::cout << results[0];
+		std::cout << "Did you mean " << results[0];
 		for (int i = 1; i < results.size(); i++) {
 			if (i == 4) { break; }
 			std::cout << ", " << results[i];
@@ -170,7 +166,6 @@ bool menu(Trie* dict) {
 			else
 			{
 				// check for error
-				std::cout << "Did you mean ";
 				checkError(dict, input);
 			}
 		}
