@@ -102,11 +102,18 @@ void checkError(Trie* dict, std::string input)
 	else {
 		std::cout << results[0];
 		for (int i = 1; i < results.size(); i++) {
-			if (i == 4) { break; }
-			std::cout << ", " << results[i];
+
+			if (results.size() > 2) {
+				if (i > 3) { break; }
+				std::cout << ", " << results[i];
+			}
+			else {
+				std::cout << " or " << results[i]; 
+			}
+			
 		}
-		if (results.size() > 4) { std::cout << " or " << results[5] << "?" << std::endl << std::endl; }
-		else{ std::cout << " or " << results[results.size() - 1] << "?" << std::endl << std::endl; }
+		if (results.size() > 2) { std::cout << " or " << results[4] << "?" << std::endl << std::endl; }
+		else { std::cout << "?" << std::endl << std::endl; }
 		
 	}
 }
