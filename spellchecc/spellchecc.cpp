@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-const std::string LETTERS = "abcdefghijklmnopqrstuvwxyz";
+const std::string LETTERS = "abcdefghijklmnopqrstuvxyz";
 const std::string DICTIONARY = "dictionary10KR.txt";
 
 void loadDictionary(Trie* dict)
@@ -108,10 +108,11 @@ void checkError(Trie* dict, std::string input)
 		for (int i = 0; i < results.size(); i++) {
 			std::cout << results[i];
 
-			if (results.size() == 1 || i == results.size()-1)
-			{ std::cout << "?" << std::endl; }
+			if (results.size() == 1) continue;
 			else if (i == results.size()-2)
 			{ std::cout << " or ";}
+			else if (i == results.size()-1)
+			{ std::cout << "?" << std::endl; }
 			else 
 			{ std::cout << ", "; }
 		}

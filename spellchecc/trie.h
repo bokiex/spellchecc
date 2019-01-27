@@ -1,3 +1,11 @@
+/*
+* trie.h
+*
+* Version: 1.1
+* Authors: Sim Sheline (S0177516E) & Koh Bok Yan (S10179233J)
+* URL: https://github.com/shleen, https://github.com/bokiex
+*/
+
 #include "stdafx.h"
 #include <iostream>
 #include <string>
