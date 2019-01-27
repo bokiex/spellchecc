@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-const int ALPHABET_SIZE = 128;
+const int ALPHABET_SIZE = 126;
 
 class Trie 
 {

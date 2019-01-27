@@ -10,6 +10,19 @@
 
 const std::string letters = "abcdefghijklmnopqrstuvxyz";
 
+// converts a given string to its lowercase form
+std::string to_lowercase(std::string s)
+{
+	std::string lower;
+	for (char c : s)
+	{
+		if (c >= 'A' && c <= 'Z') lower.push_back(c + 32);
+		else lower.push_back(c);
+	}
+
+	return lower;
+}
+
 bool loadDictionary(Trie *dict) {
 	std::ifstream dictionary;
 	dictionary.open("dictionary10KR.txt");
@@ -33,7 +46,7 @@ std::vector<std::pair<std::string, std::string>> getSplits(std::string input)
 		splits.push_back(*new std::pair<std::string, std::string>(
 			input.substr(0, i),
 			input.substr(i)
-			));
+		));
 	}
 
 	return splits;
@@ -47,27 +60,28 @@ void checkError(Trie* dict, std::string input)
 	std::vector<std::string> possibleCorrections;
 	for (std::pair<std::string, std::string> p : splits)
 	{
+		// deletion
 		for (char c : letters)
-		{
-			// deletion
-			possibleCorrections.push_back(p.first + c + p.second);
-		}
+		{ possibleCorrections.push_back(p.first + c + p.second); }
 
+		// transposition
 		if ((p.second).length() > 1)
 		{
-			// transposition
 			possibleCorrections.push_back(
 				p.first + p.second[1] + p.second[0] + (p.second).substr(2)
 			);
 		}
 	}
 
-	// create all possible corrections (for a substitution error)
+	// create all possible corrections (for substitution & insertion error)
 	for (int i = 0; i < input.length(); i++)
 	{
 		for (char c : letters)
 		{
+			// substitution
 			possibleCorrections.push_back(input.substr(0, i) + c + input.substr(i + 1));
+
+			// insertion
 			possibleCorrections.push_back(input.substr(0, i) + input.substr(i + 1));
 		}
 	}
@@ -81,7 +95,7 @@ void checkError(Trie* dict, std::string input)
 
 		if (dict->search(s))
 		{
-			if (!(std::find(results.begin(), results.end(), s) != results.end())) {
+			if ((std::find(results.begin(), results.end(), s) == results.end())) {
 				results.push_back(s);
 			}
 
@@ -161,13 +175,10 @@ bool menu(Trie* dict) {
 
 			getline(std::cin, input);
 
-			bool found = dict->search(input);
+			bool found = dict->search(to_lowercase(input));
 			if (found) { std::cout << "found!" << std::endl; }
 			else
-			{
-				// check for error
-				checkError(dict, input);
-			}
+			{ checkError(dict, to_lowercase(input)); }
 		}
 		else if (option == 2) {
 			std::cout << "Input the filepath to spellcheck: ";
@@ -177,21 +188,17 @@ bool menu(Trie* dict) {
 		else if (option == 3) {
 			std::cout << "What's the word?" << std::endl;
 			std::cin >> input;
-			addNewWord(input);
+			addNewWord(to_lowercase(input));
 			std::cout << "Added!" << std::endl;
 		}
 		else if (option == 4){
 			std::cout << "Prefix to search for: ";
 			std::cin >> input;
-			Trie* n = dict->traverse(input);
+			Trie* n = dict->traverse(to_lowercase(input));
 			if (n == nullptr)
-			{
-				std::cout << "Nothing found :-(" << std::endl;
-			}
+			{ std::cout << "Nothing found :-(" << std::endl; }
 			else
-			{
-				dict->searchPrefix(n, input);
-			}
+			{ dict->searchPrefix(n, to_lowercase(input)); }
 		}
 		else{
 			std::cout << "bAd oPtIoN" << std::endl;
