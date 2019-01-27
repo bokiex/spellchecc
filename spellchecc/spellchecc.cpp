@@ -103,25 +103,19 @@ void checkError(Trie* dict, std::string input)
 	if (results.size() == 0) {
 		std::cout << "not found :-(" << std::endl << std::endl;
 	}
-	else if (results.size() == 1) {
-		std::cout << "Did you mean " << results[0] << "?" << std::endl << std::endl;
-	}
 	else {
-		std::cout << "Did you mean " << results[0];
-		for (int i = 1; i < results.size(); i++) {
+		std::cout << "Did you mean ";
+		for (int i = 0; i < results.size(); i++) {
+			std::cout << results[i];
 
-			if (results.size() > 2) {
-				if (i > 3) { break; }
-				std::cout << ", " << results[i];
-			}
-			else {
-				std::cout << " or " << results[i]; 
-			}
-			
+			if (results.size() == 1) continue;
+			else if (i == results.size()-2)
+			{ std::cout << " or ";}
+			else if (i == results.size()-1)
+			{ std::cout << "?" << std::endl; }
+			else 
+			{ std::cout << ", "; }
 		}
-		if (results.size() > 2) { std::cout << " or " << results[4] << "?" << std::endl << std::endl; }
-		else { std::cout << "?" << std::endl << std::endl; }
-		
 	}
 }
 
@@ -141,10 +135,7 @@ void checkFile(Trie* dict, std::string path)
 			checkError(dict, word);
 		}
 	}
-
 	std::cout << std::endl;
-
-
 }
 
 void addNewWord(Trie* dict, std::string str)
@@ -165,7 +156,7 @@ void addNewWord(Trie* dict, std::string str)
 
 int main()
 {
-	// Create a trie (named dict) to hold the words
+	// Create a trie to hold the words
 	Trie* dict = new Trie;
 
 	// Load the words into dict
@@ -173,13 +164,13 @@ int main()
 
 	while (true) {
 		// Display the menu
-		std::cout << "------- Main Menu -------" << std::endl;
-		std::cout << "[1] Spell check a word" << std::endl;
-		std::cout << "[2] Spellcheck a file" << std::endl;
-		std::cout << "[3] Add a new word" << std::endl;
-		std::cout << "[4] Save (& reload) the dictionary" << std::endl;
-		std::cout << "[5] Search with a prefix" << std::endl;
-		std::cout << "[0] Quit" << std::endl;
+		std::cout << "------- Main Menu -------" << "\n"
+			  << "[1] Spell check a word" << "\n"
+			  << "[2] Spellcheck a file" << "\n"
+			  << "[3] Add a new word" << "\n"
+			  << "[4] Save (& reload) the dictionary" << "\n"
+			  << "[5] Search with a prefix" << "\n"
+			  << "[0] Quit" << std::endl;
 
 		// Get user input
 		int option;
@@ -216,6 +207,7 @@ int main()
 		else if (option == 5){
 			std::cout << "Prefix to search for: ";
 			std::cin >> input;
+
 			Trie* n = dict->traverse(to_lowercase(input));
 			if (n == nullptr)
 			{ std::cout << "Nothing found :-(" << std::endl; }
