@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 
-const std::string LETTERS = "abcdefghijklmnopqrstuvwxyz";
 const std::string DICTIONARY = "dictionary10KR.txt";
 
 void loadDictionary(Trie* dict)

@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include <iostream>
 #include <string>
 
 const int ALPHABET_SIZE = 26;
+const std::string LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
 class Trie 
 {
@@ -11,6 +11,8 @@ private:
 
 	// true if node represents the end of a word
 	bool isEndOfWord = false;
+
+	int getIndex(std::string s);
 public:
 
 	Trie();
