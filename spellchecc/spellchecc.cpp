@@ -147,14 +147,20 @@ void checkFile(Trie* dict, std::string path)
 
 }
 
-void addNewWord(std::string str)
+void addNewWord(Trie* dict, std::string str)
 {
-	std::ofstream dictionary;
-	dictionary.open(DICTIONARY, std::ios_base::app);
+	if (dict->search(str))
+	{ std::cout << str << " is already in the dictionary!" << std::endl; }
+	else
+	{
+		std::ofstream dictionary;
+		dictionary.open(DICTIONARY, std::ios_base::app);
 
-	dictionary << str << std::endl;
+		dictionary << str << std::endl;
+		dictionary.close();
 
-	dictionary.close();
+		std::cout << str << " added to the dictionary!" << std::endl;
+	}
 }
 
 int main()
@@ -204,8 +210,7 @@ int main()
 			std::cout << "What's the word? ";
 			std::cin >> input;
 
-			addNewWord(to_lowercase(input));
-			std::cout << "Added!" << std::endl;
+			addNewWord(dict, to_lowercase(input));
 		}
 		else if (option == 4) loadDictionary(dict);
 		else if (option == 5){
