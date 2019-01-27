@@ -166,7 +166,7 @@ int main()
 		// Display the menu
 		std::cout << "------- Main Menu -------" << "\n"
 			  << "[1] Spell check a word" << "\n"
-			  << "[2] Spellcheck a file" << "\n"
+			  << "[2] Spell check a file" << "\n"
 			  << "[3] Add a new word" << "\n"
 			  << "[4] Save (& reload) the dictionary" << "\n"
 			  << "[5] Search with a prefix" << "\n"
@@ -180,7 +180,8 @@ int main()
 
 		// Handle user input
 		if (option == 0) return 0;
-		else if (option == 1) {
+		else if (option == 1) 
+		{
 			std::cout << "Word to check: ";
 			std::cin.ignore();
 
@@ -191,20 +192,23 @@ int main()
 			else
 			{ checkError(dict, to_lowercase(input)); }
 		}
-		else if (option == 2) {
+		else if (option == 2) 
+		{
 			std::cout << "Input the filepath to spellcheck: ";
 			std::cin >> input;
 
 			checkFile(dict, input);
 		}
-		else if (option == 3) {
+		else if (option == 3) 
+		{
 			std::cout << "What's the word? ";
 			std::cin >> input;
 
 			addNewWord(dict, to_lowercase(input));
 		}
 		else if (option == 4) loadDictionary(dict);
-		else if (option == 5){
+		else if (option == 5) 
+		{
 			std::cout << "Prefix to search for: ";
 			std::cin >> input;
 
@@ -214,7 +218,8 @@ int main()
 			else
 			{ dict->searchPrefix(n, to_lowercase(input)); }
 		}
-		else{
+		else 
+		{
 			std::cout << "bAd oPtIoN" << std::endl;
 			return 0;
 		}
