@@ -8,32 +8,29 @@
 #include <string>
 #include <vector>
 
-const std::string letters = "abcdefghijklmnopqrstuvxyz";
+const std::string LETTERS = "abcdefghijklmnopqrstuvxyz";
+const std::string DICTIONARY = "dictionary10KR.txt";
 
-// converts a given string to its lowercase form
-std::string to_lowercase(std::string s)
+void loadDictionary(Trie* dict)
 {
-	std::string lower;
-	for (char c : s)
-	{
-		if (c >= 'A' && c <= 'Z') lower.push_back(c + 32);
-		else lower.push_back(c);
-	}
-
-	return lower;
-}
-
-bool loadDictionary(Trie *dict) {
 	std::ifstream dictionary;
-	dictionary.open("dictionary10KR.txt");
+	dictionary.open(DICTIONARY);
 
 	std::string word;
 	while (dictionary.good()) {
 		getline(dictionary, word);
  		dict->insert(word);
 	}
+}
 
-	return true;
+// returns a given string as its lowercase form
+std::string to_lowercase(std::string s)
+{
+	std::string lower;
+	for (char c : s)
+		(c >= 'A' && c <= 'Z') ? lower.push_back(c + 32) : lower.push_back(c);
+
+	return lower;
 }
 
 // returns all possible splits of the input
@@ -61,7 +58,7 @@ void checkError(Trie* dict, std::string input)
 	for (std::pair<std::string, std::string> p : splits)
 	{
 		// deletion
-		for (char c : letters)
+		for (char c : LETTERS)
 		{ possibleCorrections.push_back(p.first + c + p.second); }
 
 		// transposition
@@ -76,7 +73,7 @@ void checkError(Trie* dict, std::string input)
 	// create all possible corrections (for substitution & insertion error)
 	for (int i = 0; i < input.length(); i++)
 	{
-		for (char c : letters)
+		for (char c : LETTERS)
 		{
 			// substitution
 			possibleCorrections.push_back(input.substr(0, i) + c + input.substr(i + 1));
@@ -146,29 +143,39 @@ void checkFile(Trie* dict, std::string path)
 void addNewWord(std::string str)
 {
 	std::ofstream dictionary;
-	dictionary.open("RandomWords100.txt", std::ios_base::app);
+	dictionary.open(DICTIONARY, std::ios_base::app);
 
 	dictionary << str << std::endl;
+
+	dictionary.close();
 }
 
-bool menu(Trie* dict) {
+int main()
+{
+	// Create a trie (named dict) to hold the words
+	Trie* dict = new Trie;
+
+	// Load the words into dict
+	loadDictionary(dict);
 
 	while (true) {
+		// Display the menu
 		std::cout << "------- Main Menu -------" << std::endl;
 		std::cout << "[1] Spell check a word" << std::endl;
 		std::cout << "[2] Spellcheck a file" << std::endl;
 		std::cout << "[3] Add a new word" << std::endl;
-		std::cout << "[4] Search with a prefix" << std::endl;
+		std::cout << "[4] Save (& reload) the dictionary" << std::endl;
+		std::cout << "[5] Search with a prefix" << std::endl;
 		std::cout << "[0] Quit" << std::endl;
 
+		// Get user input
 		int option;
 		std::string input;
 		std::cout << "Enter your option: ";
 		std::cin >> option;
 
-		if (option == 0){
-			return false;
-		}
+		// Handle user input
+		if (option == 0) return 0;
 		else if (option == 1) {
 			std::cout << "Word to check: ";
 			std::cin.ignore();
@@ -183,15 +190,18 @@ bool menu(Trie* dict) {
 		else if (option == 2) {
 			std::cout << "Input the filepath to spellcheck: ";
 			std::cin >> input;
+
 			checkFile(dict, input);
 		}
 		else if (option == 3) {
-			std::cout << "What's the word?" << std::endl;
+			std::cout << "What's the word? ";
 			std::cin >> input;
+
 			addNewWord(to_lowercase(input));
 			std::cout << "Added!" << std::endl;
 		}
-		else if (option == 4){
+		else if (option == 4) loadDictionary(dict);
+		else if (option == 5){
 			std::cout << "Prefix to search for: ";
 			std::cin >> input;
 			Trie* n = dict->traverse(to_lowercase(input));
@@ -202,19 +212,7 @@ bool menu(Trie* dict) {
 		}
 		else{
 			std::cout << "bAd oPtIoN" << std::endl;
-			return false;
+			return 0;
 		}
 	}
-}
-
-int main()
-{
-	// Create a trie (named dict) to hold the words
-	Trie* dict = new Trie;
-
-	// Load the words into dict
-	loadDictionary(dict);
-
-	// Display the menu
-	menu(dict);
 }
