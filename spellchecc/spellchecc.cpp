@@ -10,6 +10,9 @@
 
 const std::string DICTIONARY = "dictionary10KR.txt";
 
+/*
+Takes in a trie node and appends the dictionary into the node
+*/
 void loadDictionary(Trie* dict)
 {
 	std::ifstream dictionary;
@@ -22,17 +25,10 @@ void loadDictionary(Trie* dict)
 	}
 }
 
-// returns a given string as its lowercase form
-std::string to_lowercase(std::string s)
-{
-	std::string lower;
-	for (char c : s)
-		(c >= 'A' && c <= 'Z') ? lower.push_back(c + 32) : lower.push_back(c);
-
-	return lower;
-}
-
-// returns all possible splits of the input
+/* 
+Takes in a string
+Returns all possible splits of the string
+*/
 std::vector<std::pair<std::string, std::string>> getSplits(std::string input)
 {
 	auto splits = std::vector<std::pair<std::string, std::string>>();
@@ -48,6 +44,11 @@ std::vector<std::pair<std::string, std::string>> getSplits(std::string input)
 	return splits;
 }
 
+/*
+Checks the input string against the dictionary for the type of error. 
+Prints out all possible words.
+Takes in a trie node and a string
+*/
 void checkError(Trie* dict, std::string input)
 {
 	auto splits = getSplits(input);
@@ -117,6 +118,11 @@ void checkError(Trie* dict, std::string input)
 	}
 }
 
+/*
+Check the file provided via string for errors against the dictionary trie. 
+Prints out all error words
+Takes in a trie node and a string
+*/
 void checkFile(Trie* dict, std::string path)
 {
 	std::ifstream file;
@@ -143,6 +149,11 @@ void checkFile(Trie* dict, std::string path)
 	
 }
 
+/*
+Checks whether string already exists in dictionary, if it is, prints error message.
+Appends new string into dictionary trie.
+Takes in a trie node and a string
+*/
 void addNewWord(Trie* dict, std::string str)
 {
 	if (dict->search(str))
@@ -192,10 +203,10 @@ int main()
 
 			getline(std::cin, input);
 
-			bool found = dict->search(to_lowercase(input));
+			bool found = dict->search(help::to_lowercase(input));
 			if (found) { std::cout << "found!" << std::endl; }
 			else
-			{ checkError(dict, to_lowercase(input)); }
+			{ checkError(dict, help::to_lowercase(input)); }
 		}
 		else if (option == 2) 
 		{
@@ -209,7 +220,7 @@ int main()
 			std::cout << "What's the word? ";
 			std::cin >> input;
 
-			addNewWord(dict, to_lowercase(input));
+			addNewWord(dict, help::to_lowercase(input));
 		}
 		else if (option == 4) loadDictionary(dict);
 		else if (option == 5) 
@@ -217,11 +228,11 @@ int main()
 			std::cout << "Prefix to search for: ";
 			std::cin >> input;
 
-			Trie* n = dict->traverse(to_lowercase(input));
+			Trie* n = dict->traverse(help::to_lowercase(input));
 			if (n == nullptr)
 			{ std::cout << "Nothing found :-(" << std::endl; }
 			else
-			{ dict->searchPrefix(n, to_lowercase(input)); }
+			{ dict->searchPrefix(n, help::to_lowercase(input)); }
 		}
 		else 
 		{

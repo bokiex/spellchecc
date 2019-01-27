@@ -1,4 +1,13 @@
+/*
+* trie.h
+*
+* Version: 1.1
+* Authors: Sim Sheline (S0177516E) & Koh Bok Yan (S10179233J)
+* URL: https://github.com/shleen, https://github.com/bokiex
+*/
+
 #include "stdafx.h"
+#include "help.h"
 #include <string>
 
 const int ALPHABET_SIZE = 26;
@@ -11,8 +20,6 @@ private:
 
 	// true if node represents the end of a word
 	bool isEndOfWord = false;
-
-	int getIndex(std::string s);
 public:
 
 	Trie();

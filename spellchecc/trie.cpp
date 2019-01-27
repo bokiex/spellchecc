@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "trie.h"
-#include "help.h"
 #include <iostream>
 
 // constructs the trie

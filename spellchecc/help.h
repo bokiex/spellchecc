@@ -1,14 +1,7 @@
-#include "stdafx.h"
+#include <string>
 
 namespace help
 {
-	// converts an ascii char to an int
-	// c: char to convert
-	//
-	// returns the appropriate integer
-	int getIndex(char c)
-	{
-		int i = c - 'a';
-		return i;
-	}
+	int getIndex(char c);
+	std::string to_lowercase(std::string s);
 }
