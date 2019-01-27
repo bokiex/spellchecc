@@ -2,6 +2,8 @@
 #include "trie.h"
 #include <string>
 
+const std::string LETTERS = "abcdefghijklmnopqrstuvwxyz";
+
 Trie::Trie(){
 	for (int i = 0; i < ALPHABET_SIZE; i++)
 	{
@@ -16,14 +18,17 @@ Trie::Trie(){
 void Trie::insert(std::string key){
 	Trie* node = this;
 
+	int index;
 	for (int i = 0; i < key.length(); i++)
 	{
-		if (node->children[key[i]] == nullptr)
+		index = key[i] - 'a';
+
+		if (node->children[index] == nullptr)
 		{
-			node->children[key[i]] = new Trie();
+			node->children[index] = new Trie;
 		}
 
-		node = node->children[key[i]];
+		node = node->children[index];
 	}
 
 	// mark last node as leaf
@@ -34,9 +39,11 @@ bool Trie::search(std::string key)
 {
 	Trie *node = this;
 
+	int index;
 	for (int i = 0; i < key.length(); i++)
 	{
-		node = node->children[key[i]];
+		index = key[i] - 'a';
+		node = node->children[index];
 
 		if (node == nullptr) return false;
 	}
@@ -48,9 +55,11 @@ Trie* Trie::traverse(std::string key)
 {
 	Trie *node = this;
 
+	int index;
 	for (int i = 0; i < key.length(); i++)
 	{
-		node = node->children[key[i]];
+		index = key[i] - 'a';
+		node = node->children[index];
 	}
 
 	return node;
@@ -58,9 +67,9 @@ Trie* Trie::traverse(std::string key)
 
 bool Trie::isLastNode(Trie* t)
 {
-	for (Trie* c : t->children)
+	for (int i = 0; i < ALPHABET_SIZE; i++)
 	{
-		if (c) return false;
+		if (t->children[i] != nullptr) return false;
 	}
 
 	return true;
@@ -68,7 +77,6 @@ bool Trie::isLastNode(Trie* t)
 
 void Trie::searchPrefix(Trie* t, std::string key)
 {
-
 	// word found! print!
 	if (t->isEndOfWord)
 	{
@@ -80,10 +88,10 @@ void Trie::searchPrefix(Trie* t, std::string key)
 
 	for (int i = 0; i < ALPHABET_SIZE; i++)
 	{
-		if (t->children[i])
+		if (t->children[i] != nullptr)
 		{
-			key.push_back((char)i);
-
+			key.push_back(LETTERS[i]);
+	
 			searchPrefix(t->children[i], key);
 			key.pop_back();
 		}
