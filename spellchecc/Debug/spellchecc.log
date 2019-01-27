@@ -1,8 +1,5 @@
 ﻿  spellchecc.cpp
-d:\program files\spellchecc\spellchecc\trie.h(30): warning C4018: '<': signed/unsigned mismatch
-d:\program files\spellchecc\spellchecc\trie.h(46): warning C4018: '<': signed/unsigned mismatch
-d:\program files\spellchecc\spellchecc\trie.h(60): warning C4018: '<': signed/unsigned mismatch
-d:\program files\spellchecc\spellchecc\spellchecc.cpp(35): warning C4018: '<=': signed/unsigned mismatch
-d:\program files\spellchecc\spellchecc\spellchecc.cpp(70): warning C4018: '<': signed/unsigned mismatch
-d:\program files\spellchecc\spellchecc\spellchecc.cpp(104): warning C4018: '<': signed/unsigned mismatch
+d:\program files\spellchecc\spellchecc\spellchecc.cpp(41): warning C4018: '<=': signed/unsigned mismatch
+d:\program files\spellchecc\spellchecc\spellchecc.cpp(74): warning C4018: '<': signed/unsigned mismatch
+d:\program files\spellchecc\spellchecc\spellchecc.cpp(108): warning C4018: '<': signed/unsigned mismatch
   spellchecc.vcxproj -> D:\Program Files\spellchecc\Debug\spellchecc.exe

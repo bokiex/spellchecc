@@ -124,18 +124,25 @@ void checkFile(Trie* dict, std::string path)
 	std::ifstream file;
 	file.open(path);
 
-	std::cout << "Listing wrongly spelled words..." << std::endl;
-
-	std::string word;
-	while (!file.eof()) {
-		std::getline(file, word);
-		
-		if (!dict->search(word)) {
-			std::cout << word << " - Perhaps you meant: ";
-			checkError(dict, word);
-		}
+	if (file.fail()) {
+		std::cout << "File not found!" << std::endl;
 	}
-	std::cout << std::endl;
+	else {
+		std::cout << "Listing wrongly spelled words..." << std::endl;
+
+		std::string word;
+		while (!file.eof()) {
+			std::getline(file, word);
+
+			if (!dict->search(word)) {
+				std::cout << word << " - Perhaps you meant: ";
+				checkError(dict, word);
+			}
+		}
+
+		std::cout << "Thanks for using FileChecker2.0!" << std::endl;
+	}
+	
 }
 
 void addNewWord(Trie* dict, std::string str)
